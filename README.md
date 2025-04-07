@@ -1,2 +1,2 @@
 # bodget-control
-This is bodget-control project UI
+This is bodget-control project UI code
