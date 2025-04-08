@@ -16,7 +16,7 @@ const Projects = () => {
     <div className='flex'>        
         <div className="flex-1 container mx-auto p-4">  
           <header className="flex justify-between items-center mb-6 border-indigo-300 pb-4">  
-            <h1 className="text-2xl font-bold text-gray-700">{menuItems[4].childrenItems[0].label}</h1>  
+            <h1 className="text-2xl font-bold text-gray-700">{menuItems.menuItems[menuItems.selectedIndex].childrenItems[0].label}</h1>  
           </header>  
           {/* show resource values */}
           {/* <ResourceValues isaProject={false} isEtebar={true}/> */}

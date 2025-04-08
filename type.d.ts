@@ -401,13 +401,18 @@ type UpdateNeedPlace = {
 
 type MenuItem={
     parentLabel:string ,
-    parentNavigate:string
+    parentNavigate:string,
     childrenItems: 
     {
       label:string,
       navigate:string
     }[]
   }
+
+type MenuItems={
+    menuItems:MenuItem[],
+    selectedIndex:number
+}
 
 type ETEBARFASL = {
     id: GUID |null

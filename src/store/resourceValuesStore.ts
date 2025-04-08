@@ -27,6 +27,7 @@ export const useResourceValuesStore = create<ResourceValuesState>()(
             resourcesJust:[],
             getResourceValues: async ()=>{
                 const resourceValues = await fetchData(`${config.api.ResourceValues_URL}`)
+                console.log(resourceValues)
                 set({resourceValues})
             },
             getResourcesJust: async (isEtebar,periodId)=>{
@@ -64,6 +65,8 @@ export const useResourceValuesStore = create<ResourceValuesState>()(
                 try {
                     const updatedResourceValue = await putData(`${config.api.ResourceValues_URL}/${resourceValueId}`, JSON.stringify(resourceValue));
 
+                    console.log(updatedResourceValue)
+
                     if (updatedResourceValue===undefined)
                     return null
                     else {
@@ -72,6 +75,7 @@ export const useResourceValuesStore = create<ResourceValuesState>()(
                         rv.id === resourceValueId ? { ...rv, ...updatedResourceValue } : rv  
                         ),  
                     }));  
+                    
                     return updatedResourceValue
                     }
                 } catch (error) {

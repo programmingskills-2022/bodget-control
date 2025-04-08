@@ -130,7 +130,7 @@ const removeEtebarOrganOstan= async(etebarOrganOstan:ETEBARORGANOSTAN)=>{
   return (
     <div className='flex flex-col p-4'>        
         <header className="flex justify-between items-center border-indigo-300 p-4">  
-          <h1 className="text-2xl font-bold text-gray-700">{menuDefinationItems[2].parentLabel }</h1>  
+          <h1 className="text-2xl font-bold text-gray-700">{menuDefinationItems.menuItems[menuDefinationItems.selectedIndex].parentLabel }</h1>  
         </header>         
         <Card fontStyles="flex-1 container mx-auto p-4"> 
           {/* <EtebarOrganOstanForm clear={clear} etebarOrganOstan={etebarOrganOstan} setEtebarOrganOstan={setEtebarOrganOstan} 

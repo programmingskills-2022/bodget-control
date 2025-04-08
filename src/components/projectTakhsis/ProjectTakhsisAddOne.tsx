@@ -150,7 +150,7 @@ const ProjectTakhsisAddOne = (
       <div className='flex '>        
           <div className="flex-1 container mx-auto p-4">  
             <header className="flex justify-between items-center mb-6 border-indigo-300 pb-4">  
-              <h1 className="text-2xl font-bold text-gray-700">{`${menuItems[3].parentLabel}/${menuItems[3].childrenItems[1].label}`}</h1>  
+              <h1 className="text-2xl font-bold text-gray-700">{`${menuItems.menuItems[menuItems.selectedIndex].parentLabel}/${menuItems.menuItems[menuItems.selectedIndex].childrenItems[1].label}`}</h1>  
             </header>  
             {/* show resource values */}
             <ResourceValues isaProject={false} isEtebar={false}/>

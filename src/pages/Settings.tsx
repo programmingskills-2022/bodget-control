@@ -49,7 +49,7 @@ const Settings = () => {
   return (
     <div className='flex flex-col p-4'>        
       <header className="flex justify-between items-center border-indigo-300 p-4">  
-        <h1 className="text-2xl font-bold text-gray-700">{menuItems[5].parentLabel }</h1>  
+        <h1 className="text-2xl font-bold text-gray-700">{menuItems.menuItems[menuItems.selectedIndex].parentLabel }</h1>  
       </header>         
       <Card fontStyles="flex-1 container mx-auto p-4">  
         <div className='w-1/3 flex flex-col p-2 justify-items-center'>

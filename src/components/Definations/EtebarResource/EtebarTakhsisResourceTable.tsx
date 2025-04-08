@@ -3,22 +3,34 @@ import { convertToFarsiDigits, formatNumberWithCommas } from "../../../general/F
 import Button from "../../UI/Button"
 import ConfirmationDialog from "../../UI/ConfirmationDialog"
 import { useResourceValuesStore } from "../../../store/resourceValuesStore"
+import { useContext } from "../../../contexts/context"
 
 type Props={
   setClear:React.Dispatch<React.SetStateAction<boolean>>
+  resourceVal:RESOURCEVALUE
   setResourceValue: React.Dispatch<React.SetStateAction<RESOURCEVALUE>>
   removeResourceValue : (resourceValue: RESOURCEVALUE) => Promise<void>
 }
-const EtebarResourceTable = ( { setResourceValue , setClear,removeResourceValue} : Props) => {
+const EtebarTakhsisResourceTable = ( { setClear, resourceVal, setResourceValue , removeResourceValue} : Props) => {
      
+  const {menuDefinationItems}=useContext()  
   const {resourceValues} = useResourceValuesStore()
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);  
   const [resourceValueToDelete, setResourceValueToDelete] = useState<RESOURCEVALUE | null>(null);  
   const [resourceValueEtebar,setResourceValueEtebar]= useState<RESOURCEVALUE[]>([])
 
+
   useEffect(()=>{
-    setResourceValueEtebar(resourceValues.filter((rv)=>rv.period===null))
-  },[])
+    console.log('sdhghdgfhdg',resourceValueEtebar,resourceValues,resourceVal)
+    if (menuDefinationItems.selectedIndex===4) setResourceValueEtebar(resourceValues.filter((rv)=>rv.period===null))
+    else if(menuDefinationItems.selectedIndex===5)
+      if (resourceVal.period?.id!==null) 
+      {
+        setResourceValueEtebar(resourceValues.filter((rv)=>rv.period!==null && rv.period.id === resourceVal.periodId))
+        console.log(resourceValues.filter((rv)=>rv.period!==null && rv.period.id === resourceVal.periodId))
+      }
+      else setResourceValueEtebar([])
+  },[menuDefinationItems.selectedIndex,resourceVal.periodId,resourceValues])
 
   const handleEditClick = (resourceValue:RESOURCEVALUE)  =>{
     setClear(false)
@@ -26,11 +38,11 @@ const EtebarResourceTable = ( { setResourceValue , setClear,removeResourceValue}
     if (resourceValue.financialYear!==null)
     setResourceValue({
       id:resourceValue.id,
-      period:null,
-      periodId:null,
+      period:resourceValue.period,
+      periodId:resourceValue.period?.id,
       financialYear:resourceValue.financialYear,
       financialYearId: resourceValue.financialYear.id,
-      resourceId:resourceValue.resourceId,
+      resourceId:resourceValue.resource?.id,
       resource:resourceValue.resource,
       value: resourceValue.value
     })
@@ -70,7 +82,7 @@ const EtebarResourceTable = ( { setResourceValue , setClear,removeResourceValue}
               resourceValueEtebar?.map((resourceValue) => (
               <tr
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-custom-hover"
-                //key={projectEtebar.id} 
+                key={resourceValue.id} 
                 //onClick={()=>handleProjectEtebarClick(projectEtebar)}
               >
                 <td className="p-2 cursor-pointer text-gray-400 font-bold"> {convertToFarsiDigits(resourceValue.resource?.code)}</td>
@@ -101,4 +113,4 @@ const EtebarResourceTable = ( { setResourceValue , setClear,removeResourceValue}
   )
 }
 
-export default EtebarResourceTable
+export default EtebarTakhsisResourceTable

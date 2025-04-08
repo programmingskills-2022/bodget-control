@@ -19,7 +19,7 @@ import EtebarFasls from './pages/EtebarFasls';
 import EtebarBarnamehs from './pages/EtebarBarnamehs';
 import EtebarOrgansOstan from './pages/EtebarOrgansOstan';
 import EtebarCities from './pages/EtebarCities';
-import EtebarResources from './pages/EtebarResources';
+import EtebarTakhsisResources from './pages/EtebarTakhsisResources';
 
 const App: React.FC = () => {  
   const { isAuthenticated } = useAuthStore();  
@@ -67,7 +67,7 @@ const App: React.FC = () => {
           <Route path='/EtebarBarnamehs' element={isAuthenticated ? <EtebarBarnamehs/> : <Login />} />
           <Route path='/EtebarOrgansOstan' element={isAuthenticated ? <EtebarOrgansOstan/> : <Login />} />
           <Route path='/EtebarCities' element={isAuthenticated ? <EtebarCities/> : <Login />} />
-          <Route path='/ResourceValues' element={isAuthenticated ? <EtebarResources/> : <Login />} />
+          <Route path='/ResourceValues' element={isAuthenticated ? <EtebarTakhsisResources/> : <Login />} />
         </Routes>  
       </Layout>  
     </Router>  

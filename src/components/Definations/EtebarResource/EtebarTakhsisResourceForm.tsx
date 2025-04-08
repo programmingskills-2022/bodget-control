@@ -1,3 +1,6 @@
+import { useEffect } from "react"
+import { useContext } from "../../../contexts/context"
+import { usePeriodsStore } from "../../../store/periodsStore"
 import { useResourcesStore } from "../../../store/resourcesStore"
 import Button from "../../UI/Button"
 import LookupDropdown from "../../UI/LookupDropdown"
@@ -11,9 +14,17 @@ type Props = {
     handleCancelClick:()=>void
 }
 
-const EtebarResourceForm = ({clear , resourceValue, setResourceValue, handleClick, handleCancelClick}: Props) => {
+const EtebarTakhsisResourceForm = ({clear , resourceValue, setResourceValue, handleClick, handleCancelClick}: Props) => {
 
+    
+    const {menuDefinationItems}=useContext()
     const {resources} = useResourcesStore()
+    const {periods,getPeriods}=usePeriodsStore()
+
+    useEffect(()=>{
+       if (menuDefinationItems.selectedIndex===5)
+         getPeriods(false)
+    },[])
 
     const handlePropertySet = (property: keyof RESOURCEVALUEWithoutId, value:unknown,
     ) => 
@@ -40,6 +51,20 @@ const EtebarResourceForm = ({clear , resourceValue, setResourceValue, handleClic
                     required={true}
                     selected={resourceValue.id!==null ? resourceValue.resource : null}
                 />                      
+                {menuDefinationItems.selectedIndex===5 &&
+                <LookupDropdown  
+                    items={periods?.length>0 ? periods : []}  
+                    idKey="id"  
+                    nameKey="name" 
+                    codeKey="code"
+                    onItemSelect={(value)=>handlePropertySet('periodId',value) }
+                    searchLabel={'دوره'}
+                    hasLabel={true}
+                    clear={false}
+                    required={true}
+                    selected={resourceValue.id!==null ? resourceValue.period : null}
+                />    
+                }                      
                 <Textbox  
                     label="اعتبار"  
                     value={resourceValue.value===null ? 0 : resourceValue.value}  
@@ -70,4 +95,4 @@ const EtebarResourceForm = ({clear , resourceValue, setResourceValue, handleClic
     )
 }
 
-export default EtebarResourceForm
+export default EtebarTakhsisResourceForm

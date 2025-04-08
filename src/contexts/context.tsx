@@ -3,8 +3,11 @@ import React, { createContext, ReactNode, useContext as useReactContext, useStat
 type SetterFunction<T> = React.Dispatch<React.SetStateAction<T>>;  
 
 interface ContextType {
-  menuItems: MenuItem[];
-  menuDefinationItems : MenuItem[];
+  menuItems: MenuItems;
+  menuDefinationItems : MenuItems;
+  setMenuItems:SetterFunction<MenuItems>
+  setMenuDefinationItems:SetterFunction<MenuItems>
+
   projectCode: string;
   organOstanSearch: Action
 
@@ -57,8 +60,11 @@ interface ContextType {
 }
 
 export const Context = createContext<ContextType>({
-  menuItems: [],
-  menuDefinationItems:[],
+  menuItems: {menuItems:[],selectedIndex:0},
+  menuDefinationItems:{menuItems:[],selectedIndex:0},
+  setMenuItems:()=>{},
+  setMenuDefinationItems:()=>{},
+
   projectCode: '',
   organOstanSearch: null,
   
@@ -123,32 +129,41 @@ interface ProviderProps {
 }
 
 export const Provider: React.FC<ProviderProps> = ({ children }) => {
-  const menuDefinationItems : MenuItem[] = 
-  [
-    {parentLabel:'اعتبار فصل' ,parentNavigate:'EtebarFasls', childrenItems:[]},
-    {parentLabel:'اعتبار برنامه' ,parentNavigate:'EtebarBarnamehs', childrenItems:[]},
-    {parentLabel:'اعتبار دستگاه' ,parentNavigate:'EtebarOrgansOstan', childrenItems:[]},
-    {parentLabel:'  اعتبار شهرستان' ,parentNavigate:'EtebarCities', childrenItems:[]},
-    {parentLabel:' اعتبار منابع' ,parentNavigate:'ResourceValues', childrenItems:[]},
-  ]
-  const menuItems:MenuItem[] = 
-  [
-    { parentLabel: 'داشبورد', parentNavigate: 'Dashboard', childrenItems: [] },
-    {parentLabel:'پروژه' ,parentNavigate:'Projects', 
-          childrenItems:[{label:'ثبت پروژه',navigate:'Projects/Add'},]},
 
-    {parentLabel:'اعتبار' ,parentNavigate:'ProjectsEtebar' , 
-          childrenItems:[{label:'ثبت گروهی',navigate:'ProjectsEtebar/AddGroup'},
-                          {label:'ثبت انفرادی',navigate:'ProjectsEtebar/AddOne'},]},
+  const [menuDefinationItems,setMenuDefinationItems]  = useState<MenuItems>({
+    menuItems:  [
+      {parentLabel:'اعتبار فصل' ,parentNavigate:'EtebarFasls', childrenItems:[]},
+      {parentLabel:'اعتبار برنامه' ,parentNavigate:'EtebarBarnamehs', childrenItems:[]},
+      {parentLabel:'اعتبار دستگاه' ,parentNavigate:'EtebarOrgansOstan', childrenItems:[]},
+      {parentLabel:'  اعتبار شهرستان' ,parentNavigate:'EtebarCities', childrenItems:[]},
+      {parentLabel:' اعتبار منابع' ,parentNavigate:'ResourceValues', childrenItems:[]},
+      {parentLabel:' تخصیص منابع' ,parentNavigate:'ResourceValues', childrenItems:[]},
+    ], 
+    selectedIndex:0
+  })
 
-    {parentLabel:'تخصیص' ,parentNavigate:'ProjectsTakhsis', 
-          childrenItems:[{label:'ثبت گروهی',navigate:'ProjectsTakhsis/AddGroup'},
-                        {label:'ثبت انفرادی',navigate:'ProjectsTakhsis/AddOne'},]},
+  const [menuItems,setMenuItems]=useState<MenuItems>( 
+  {
+    menuItems:  [
+      { parentLabel: 'داشبورد', parentNavigate: 'Dashboard', childrenItems: [] },
+      {parentLabel:'پروژه' ,parentNavigate:'Projects', 
+            childrenItems:[{label:'ثبت پروژه',navigate:'Projects/Add'},]},
+  
+      {parentLabel:'اعتبار' ,parentNavigate:'ProjectsEtebar' , 
+            childrenItems:[{label:'ثبت گروهی',navigate:'ProjectsEtebar/AddGroup'},
+                            {label:'ثبت انفرادی',navigate:'ProjectsEtebar/AddOne'},]},
+  
+      {parentLabel:'تخصیص' ,parentNavigate:'ProjectsTakhsis', 
+            childrenItems:[{label:'ثبت گروهی',navigate:'ProjectsTakhsis/AddGroup'},
+                          {label:'ثبت انفرادی',navigate:'ProjectsTakhsis/AddOne'},]},
+  
+      {parentLabel:'گزارشات' ,parentNavigate:'Settings', childrenItems:[{label:'لیست پروژه ها',navigate:'Projects'}]},
+  
+      {parentLabel:'تنظیمات' ,parentNavigate:'Settings', childrenItems:[]},
+    ],
+    selectedIndex:0
+  })
 
-    {parentLabel:'گزارشات' ,parentNavigate:'Settings', childrenItems:[{label:'لیست پروژه ها',navigate:'Projects'}]},
-
-    {parentLabel:'تنظیمات' ,parentNavigate:'Settings', childrenItems:[]},
-  ]
   const [organOstanSearch, setOrganOstanSearch] = useState<Action>(null);
   const [projectCode, setProjectCode] = useState('');
 
@@ -244,6 +259,9 @@ export const Provider: React.FC<ProviderProps> = ({ children }) => {
     resourceValueSearch,
     setPeriodSearch,
     setResourceValueSearch,
+
+    setMenuDefinationItems,
+    setMenuItems
 
 
   };

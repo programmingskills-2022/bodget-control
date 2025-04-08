@@ -7,16 +7,17 @@ import { handleMessage } from "../general/Functions";
 import Modal from "../components/UI/Modal";
 import { useResourcesStore } from "../store/resourcesStore";
 import { useResourceValuesStore } from "../store/resourceValuesStore";
-import EtebarResourceForm from "../components/Definations/EtebarResource/EtebarResourceForm";
-import EtebarResourceTable from "../components/Definations/EtebarResource/EtebarResourceTable";
+import EtebarTakhsisResourceTable from "../components/Definations/EtebarResource/EtebarTakhsisResourceTable";
+import EtebarTakhsisResourceForm from "../components/Definations/EtebarResource/EtebarTakhsisResourceForm";
 
 
-const EtebarResources =  () => {
+const EtebarTakhsisResources =  () => {
 
   const {menuDefinationItems}=useContext()
+
   const [clear,setClear] = useState(false)
   const {settings} = useSettingsStore()
-  const {getResourcesJust,add,update,remove,resourceValues} = useResourceValuesStore()
+  const {getResourcesJust,add,update,remove,resourceValues,getResourceValues} = useResourceValuesStore()
   const {getResources} = useResourcesStore()
 
   const [isModalOpen, setModalOpen] = useState(false);  
@@ -37,6 +38,7 @@ const EtebarResources =  () => {
 
 useEffect(()=>{
   getResources()
+  getResourceValues()
 },[])
 
 useEffect(()=>{
@@ -54,16 +56,16 @@ useEffect(()=>{
 //this function refresh object that want to be insert or update
   
   const refresh=()=>{
-    setResourceValue( {  
+    setResourceValue( (prev)=> ({...prev,  
         id:null,
         financialYear:null,
         financialYearId : null,
-        period:null,
-        periodId: null, 
+        // period:null,
+        // periodId: null, 
         resource:null,
         resourceId:null,
         value: 0, 
-    })
+    }))
     setClear(true)
   }
 //------------------------------------------------------------------------  
@@ -83,7 +85,10 @@ const removeResourceValue= async(resourceValue:RESOURCEVALUE)=>{
 
     let existingResourceValue=undefined
     if (resourceValues.length>0)
-      existingResourceValue= resourceValues.find(rv=> rv.resource?.id===resourceValue.resourceId)
+      if (menuDefinationItems.selectedIndex===4)
+        existingResourceValue= resourceValues.find(rv=> rv.resource?.id===resourceValue.resourceId)
+      else if(menuDefinationItems.selectedIndex===5)
+        existingResourceValue= resourceValues.find(rv=> rv.resource?.id===resourceValue.resourceId && rv.period?.id===resourceValue.periodId)
 
     if (existingResourceValue!==undefined && resourceValue.id !== existingResourceValue.id)
     {
@@ -105,7 +110,7 @@ const removeResourceValue= async(resourceValue:RESOURCEVALUE)=>{
     if (settings.financialYear!==null)
       if (resourceValue.id === null) {
           add({
-            periodId:null, 
+            periodId:resourceValue.periodId, 
             resourceId:resourceValue.resourceId, 
             financialYearId: settings.financialYear?.id,
             value:resourceValue.value
@@ -115,10 +120,10 @@ const removeResourceValue= async(resourceValue:RESOURCEVALUE)=>{
       //update existing etebar
       else {
         update(resourceValue.id, {...resourceValue,
-          //,faslId:etebarFasl.fasl?.id ?? null 
-          resourceId:resourceValue.resource?.id ?? null,
+          // periodId:resourceValue.periodId, 
+          // resourceId:resourceValue.resourceId ?? null,
           financialYearId: settings.financialYear?.id}
-          );
+        ); 
       }
     refresh()
   }
@@ -126,16 +131,16 @@ const removeResourceValue= async(resourceValue:RESOURCEVALUE)=>{
   return (
     <div className='flex flex-col p-4'>        
         <header className="flex justify-between items-center border-indigo-300 p-4">  
-          <h1 className="text-2xl font-bold text-gray-700">{menuDefinationItems[4].parentLabel }</h1>  
+          <h1 className="text-2xl font-bold text-gray-700">{menuDefinationItems.menuItems[menuDefinationItems.selectedIndex].parentLabel }</h1>  
         </header>         
         <Card fontStyles="flex-1 container mx-auto p-4"> 
-          <EtebarResourceForm clear={clear} resourceValue={resourceValue} setResourceValue={setResourceValue} 
+          <EtebarTakhsisResourceForm clear={clear} resourceValue={resourceValue} setResourceValue={setResourceValue} 
           handleClick={handleClick} handleCancelClick={refresh}/>
-          <EtebarResourceTable  setClear={setClear} setResourceValue={setResourceValue} removeResourceValue={removeResourceValue}/>
+          <EtebarTakhsisResourceTable  setClear={setClear} resourceVal={resourceValue} setResourceValue={setResourceValue} removeResourceValue={removeResourceValue}/>
         </Card>
         <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} message={successMessage} />  
     </div> 
   )
 }
 
-export default EtebarResources
+export default EtebarTakhsisResources
