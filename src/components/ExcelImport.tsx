@@ -2,11 +2,15 @@ import { useState } from 'react';
 import * as XLSX from 'xlsx';  
 import Card from './UI/Card'
 
-const ExcelImport = ({setJsonData}) => {  
+interface ExcelImportProps {
+    setJsonData: (data: DataRow[]) => void;
+}
+
+const ExcelImport = ({ setJsonData }: ExcelImportProps) => {  
     const [fileName, setFileName] = useState('انتخاب فایل'); // Initial message in Persian  
 
-    const handleFileUpload = (event) => {  
-        const file = event.target.files[0];  
+    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {  
+        const file = event.target.files?.[0];  
         if (!file) return;  
 
         setFileName(file.name); // Show the selected file name  

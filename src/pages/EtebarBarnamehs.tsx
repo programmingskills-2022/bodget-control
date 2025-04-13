@@ -6,13 +6,12 @@ import { useSettingsStore } from "../store/settingsStore";
 import { handleMessage } from "../general/Functions";
 import Modal from "../components/UI/Modal";
 import { useEtebarBarnamehsStore } from "../store/etebarBarnamehsStore";
-import EtebarBarnamehForm from "../components/Definations/EtebarBarnameh/EtebarBarnamehForm";
+//import EtebarBarnamehForm from "../components/Definations/EtebarBarnameh/EtebarBarnamehForm";
 import EtebarBarnamehTable from "../components/Definations/EtebarBarnameh/EtebarBarnamehTable";
 import { useResourcesStore } from "../store/resourcesStore";
 import { useBarnamehsStore } from "../store/barnamehsStore";
 import EtebarDefinationForm from "../components/Definations/EtebarDefination/EtebarDefinationForm";
-import EtebarDefinationTable from "../components/Definations/EtebarDefination/EtebarDefinationTable";
-//import EtebarDefinationForm from "../components/Definations/EtebarDefination/EtebarDefinationForm";
+
 
 const EtebarBarnamehs =  () => {
 
@@ -138,7 +137,7 @@ const removeEtebarBarnameh= async(etebarBarnameh:ETEBARBARNAMEH)=>{
           <h1 className="text-2xl font-bold text-gray-700">{menuDefinationItems.menuItems[menuDefinationItems.selectedIndex].parentLabel }</h1>  
         </header>         
         <Card fontStyles="flex-1 container mx-auto p-4"> 
-          <EtebarDefinationForm  definitionType="barnameh" clear={clear} etebarDefinition={etebarBarnameh} setEtebarDefinition={setEtebarBarnameh} 
+          <EtebarDefinationForm  definitionType="barnameh" clear={clear} etebarDefinition={etebarBarnameh} setEtebarDefinition={setEtebarBarnameh as React.Dispatch<React.SetStateAction<ETEBARFASL | ETEBARBARNAMEH | ETEBARCITY | ETEBARORGANOSTAN>>} 
           handleClick={handleClick} handleCancelClick={refresh}/>   
           {/* <EtebarBarnamehForm clear={clear} etebarBarnameh={etebarBarnameh} setEtebarBarnameh={setEtebarBarnameh} 
           handleClick={handleClick} handleCancelClick={refresh}/> */}

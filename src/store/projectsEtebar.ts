@@ -4,6 +4,14 @@ import { fetchData, postData, putData } from "./projectsStore";
 import { config } from "../config";
 import axios from "axios";
 
+type ProjectWithAnEtebarResource={
+  id:GUID
+  project:Project
+  projectId:GUID
+  resourceValue:RESOURCEVALUE
+  resourceValueId:GUID
+  validity:number
+}
 
 interface ProjectsEtebarState{
     allProjectsEtebar:PROJECTETEBAR[]
@@ -68,19 +76,18 @@ export const useProjectsEtebarStore=create<ProjectsEtebarState>()(
                     const response = await axios.get(`${config.api.ProjectsEtebar_URL}/findByConditions/${resourceValueId}${urlParams}&pageNumber=${pageParam}&pageSize=100`);  
                 
                     set({totalCount: response.data.totalCount===null ? 0 :response.data.totalCount})
-                    console.log('response.data',response.data)
+                    console.log('response.data of getProjectsWithAnEtebarResource',response.data)
                     if (response.data.items?.length !== 0) 
                     {
                       const manipulatedData = {  
                         ...response.data,  
-                        items: response.data.items.map(item=> ({  
+                        items: response.data.items.map((item:ProjectWithAnEtebarResource)=> ({  
                             ...item.project, // Spread the properties of item.project  
                             resourceVal: item.validity, // new field resourceVal  
                             resourceValueId:takhsisResourceValueId
                         }))  
                       };  
-                      set({ projectsWithAnEtebarResource: 
-                        manipulatedData.items,
+                      set({ projectsWithAnEtebarResource: manipulatedData.items,
                         //[...state.projectsWithAnEtebarResource, ...manipulatedData.items] ,
                         totalCount: manipulatedData?.totalCount ,
                         isLoading:false
@@ -111,7 +118,7 @@ export const useProjectsEtebarStore=create<ProjectsEtebarState>()(
                     {
                       const manipulatedData = {  
                         ...response.data,  
-                        items: response.data.items.map(item=> ({  
+                        items: response.data.items.map((item:ProjectWithAnEtebarResource)=> ({  
                             ...item.project, // Spread the properties of item.project  
                             resourceVal: item.validity, // new field resourceVal  
                             resourceValueId:takhsisResourceValueId,

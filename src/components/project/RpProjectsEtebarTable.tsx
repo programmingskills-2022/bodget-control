@@ -55,9 +55,9 @@ const RpProjectsEtebarTable = () => {
   },[])
 
 //------------------------------------------------------------------------------------------------  
-  const intObserver = useRef()  
+  const intObserver = useRef<IntersectionObserver | null>(null)  
 //-------------------callback------------------------------------------------------------------------------  
-  const lastProjectRef = useCallback((project:Project) => {  
+  const lastProjectRef = useCallback((node: HTMLElement | null) => {  
     if (isFetchingNextPage) return  
 
     if (intObserver.current) intObserver.current.disconnect()  
@@ -69,10 +69,10 @@ const RpProjectsEtebarTable = () => {
       }  
     })  
 
-    if (project) intObserver.current.observe(project)  
+    if (node) intObserver.current.observe(node)  
   }, [isFetchingNextPage, fetchNextPage, hasNextPage])  
 //------------------------------------------------------------------------------------------------------------  
-  if (status === 'error') return <p className='center'>خطا: {error.message}</p>  
+  if (status === 'error') return <p className='center'>خطا: {(error as Error).message}</p>
   return (
     <>
     {isLoading ? null : <ProjectCount label='تعداد پروژه ها:' count={totalCount}/>}  

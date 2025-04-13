@@ -72,7 +72,7 @@ const ProjectAdd = () => {
     count,
      } = useProjectStore();
 
-  const [jsonData,setJsonData] = useState([])     
+  const [jsonData, setJsonData] = useState<DataRow[]>([])     
   const [addProjects,setAddProjects] = useState<Project[]>([])
   const {getFinancialYears} = useFinancialYearsStore();
   const {organsJust,getOrgansOstan}=useOrgansOstanStore()
@@ -144,22 +144,22 @@ const ProjectAdd = () => {
   },[])
 
 
-  const createNewProject = (data) :ProjectWithoutId => {  
-    const organOstan= organsJust.find(oj=>oj.code===data[0].toString())
+  const createNewProject = (data:DataRow) :ProjectWithoutId => {  
+    const organOstan= organsJust.find(oj=>oj.code===data[0]?.toString())
     const tarh= tarhs.find(t=>t.code===data[4]?.toString())
     const city= cities.find(c=>c.code===data[5]?.toString())
     const part= parts.find(p=>p.code===data[6]?.toString())
     const village= villages.find(v=>v.code===data[7])
     const performancePoint= performancePoints.find(pp=>pp.code===data[8])
     const employee= sazmanEmployees.find(se=>se.lName===data[9])
-    const employeeCommittee= sazmanEmployees.find(se=>se.lName===data[10].trim()) 
-    const motevazenFasl= motevazenFasls.find(mf=>mf.code===data[11].trim()) 
-    const performanceMethod= performanceMethods.find(pm=>pm.name===data[13].trim()) 
-    const projectType= projectTypes.find(pt=>pt.name===data[14].trim()) 
-    const collaborative= collaboratives.find(c=>c.name===data[15].trim()) 
-    const approvalAuthority= approvalAuthorities.find(aa=>aa.name===data[16].trim()) 
-    const goal= goals.find(g=>g.name===data[17].trim()) 
-    const area= areasWithCity.find(a=>a.code===parseInt(data[21])) 
+    const employeeCommittee= sazmanEmployees.find(se=>se.lName===data[10]?.trim()) 
+    const motevazenFasl= motevazenFasls.find(mf=>mf.code===data[11]?.trim()) 
+    const performanceMethod= performanceMethods.find(pm=>pm.name===data[13]?.trim()) 
+    const projectType= projectTypes.find(pt=>pt.name===data[14]?.trim()) 
+    const collaborative= collaboratives.find(c=>c.name===data[15]?.trim()) 
+    const approvalAuthority= approvalAuthorities.find(aa=>aa.name===data[16]?.trim()) 
+    const goal= goals.find(g=>g.name===data[17]?.trim()) 
+    const area= areasWithCity.find(a=>a.code===parseInt(data[21]?? '')) 
     const newProject = {  
       code:null,
       organOstanId: organOstan!==undefined ? organOstan.id : null,  

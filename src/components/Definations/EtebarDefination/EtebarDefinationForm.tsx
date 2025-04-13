@@ -33,12 +33,13 @@ const EtebarDefinationForm = ({
     const {cities} = useCitiesStore() 
     const {organsJust} = useOrgansOstanStore()
 
-    const handlePropertySet = (property: keyof (ETEBARFASLWithoutId | ETEBARBARNAMEHWithoutId | ETEBARCITYWithoutId | ETEBARORGANOSTANWithoutId), value: unknown) => {  
+    function handlePropertySet (property: keyof (ETEBARFASLWithoutId | ETEBARBARNAMEHWithoutId | ETEBARCITYWithoutId | ETEBARORGANOSTANWithoutId), value: unknown) {  
         setEtebarDefinition(prev => ({  
             ...prev,  
             [property]: value,  
         }));  
     };  
+
 
     function isEtebarFasl(def: ETEBARFASL | ETEBARBARNAMEH | ETEBARCITY | ETEBARORGANOSTAN): def is ETEBARFASL {  
         return (def as ETEBARFASL).faslId !== undefined;  
@@ -56,42 +57,50 @@ const EtebarDefinationForm = ({
         return (def as ETEBARORGANOSTAN).organOstanId !== undefined;  
     }  
     
-    const config = {  
-        fasl: {  
-            dropdownItems: fasls ,  
-            propertyId: 'faslId',  
-            searchLabel: 'فصل',  
-            selected: isEtebarFasl(etebarDefinition) ? etebarDefinition.fasl : null,  
-        },  
-        barnameh: {  
-            dropdownItems: barnamehs,  
-            propertyId: 'barnamehId',  
-            searchLabel: 'برنامه',  
-            selected: isEtebarBarnameh(etebarDefinition) ? etebarDefinition.barnameh : null,  
-        },  
-        city: {  
-            dropdownItems: cities,  // Replace with actual definitions  
-            propertyId: 'cityId',  
-            searchLabel: 'شهر',  
-            selected: isEtebarCity(etebarDefinition) ? etebarDefinition.city : null,  
-        },  
-        organOstan: {  
-            dropdownItems: organsJust,  // Replace with actual definitions  
-            propertyId: 'organOstanId',  
-            searchLabel: 'سازمان',  
-            selected: isEtebarOrganostan(etebarDefinition) ? etebarDefinition.organOstan?.organ : null,  
-        },  
-    }[definitionType];  
+    const config = (() => {
+        switch (definitionType) {
+            case 'fasl':
+                return {
+                    dropdownItems: fasls,
+                    propertyId: 'faslId',
+                    searchLabel: 'فصل',
+                    selected: isEtebarFasl(etebarDefinition) ? etebarDefinition.fasl : null,
+                };
+            case 'barnameh':
+                return {
+                    dropdownItems: barnamehs,
+                    propertyId: 'barnamehId',
+                    searchLabel: 'برنامه',
+                    selected: isEtebarBarnameh(etebarDefinition) ? etebarDefinition.barnameh : null,
+                };
+            case 'city':
+                return {
+                    dropdownItems: cities,
+                    propertyId: 'cityId',
+                    searchLabel: 'شهر',
+                    selected: isEtebarCity(etebarDefinition) ? etebarDefinition.city : null,
+                };
+            case 'organOstan':
+                return {
+                    dropdownItems: organsJust,
+                    propertyId: 'organOstanId',
+                    searchLabel: 'سازمان',
+                    selected: isEtebarOrganostan(etebarDefinition) ? etebarDefinition.organOstan?.organ : null,
+                };
+            default:
+                throw new Error('Invalid definition type');
+        }
+    })();
 
     return (  
         <div className='w-full flex flex-col p-2 justify-items-center items-center'>  
             <div className='w-1/2 flex flex-col p-2 justify-items-center'>  
                 <LookupDropdown  
-                    items={config.dropdownItems?.length > 0 ? config.dropdownItems : []}  
+                    items={config.dropdownItems?.length > 0 ? config.dropdownItems as Record<string, unknown>[]: []}  
                     idKey="id"  
                     nameKey="name"  
                     codeKey="code"  
-                    onItemSelect={(value) => handlePropertySet(config.propertyId, value)}  
+                    onItemSelect={(value) => handlePropertySet(config.propertyId as keyof (ETEBARFASLWithoutId | ETEBARBARNAMEHWithoutId | ETEBARCITYWithoutId | ETEBARORGANOSTANWithoutId), value)}  
                     searchLabel={config.searchLabel}  
                     hasLabel={true}  
                     clear={clear}  

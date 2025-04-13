@@ -135,7 +135,7 @@ const removeEtebarOrganOstan= async(etebarOrganOstan:ETEBARORGANOSTAN)=>{
         <Card fontStyles="flex-1 container mx-auto p-4"> 
           {/* <EtebarOrganOstanForm clear={clear} etebarOrganOstan={etebarOrganOstan} setEtebarOrganOstan={setEtebarOrganOstan} 
           handleClick={handleClick} handleCancelClick={refresh}/> */}
-          <EtebarDefinationForm  definitionType="organOstan" clear={clear} etebarDefinition={etebarOrganOstan} setEtebarDefinition={setEtebarOrganOstan} 
+          <EtebarDefinationForm  definitionType="organOstan" clear={clear} etebarDefinition={etebarOrganOstan} setEtebarDefinition={setEtebarOrganOstan as React.Dispatch<React.SetStateAction<ETEBARFASL | ETEBARBARNAMEH | ETEBARCITY | ETEBARORGANOSTAN>>} 
           handleClick={handleClick} handleCancelClick={refresh}/> 
           <EtebarOrganOstanTable setClear={setClear} setEtebarOrganOstan={setEtebarOrganOstan} removeEtebarOrganOstan={removeEtebarOrganOstan}/>
         </Card>

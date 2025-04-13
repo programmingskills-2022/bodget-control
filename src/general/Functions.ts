@@ -1,5 +1,4 @@
 
-
 export const convertToFarsiDigits = (num: number | string | null | undefined): string => {
     const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
 
@@ -69,3 +68,4 @@ export function formatNumberWithCommas(num: number): string {
 
     return formattedString;  
 }  
+

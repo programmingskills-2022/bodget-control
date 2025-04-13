@@ -13,7 +13,7 @@ type Props<T extends Record<string, unknown>> = {
     clear:boolean
     required:boolean
     disabled?:boolean
-    selected?:any
+    selected?:Record<string, unknown>|null|undefined
 }
 
 const LookupDropdown = <T extends Record<string,unknown>>({
@@ -96,9 +96,9 @@ const LookupDropdown = <T extends Record<string,unknown>>({
 
       useEffect(()=>{
         if (selected){
-          const id = selected[idKey];
-          setSelectedItem(id);
-          setInputValue(`${selected[codeKey] ?? ''} - ${selected[nameKey] ?? ''}`);
+          const id = selected[idKey as keyof typeof selected];
+          setSelectedItem(id as T[keyof T]);
+          setInputValue(`${(selected as T)[codeKey] ?? ''} - ${(selected as T)[nameKey] ?? ''}`);
         }
       },[selected])
 

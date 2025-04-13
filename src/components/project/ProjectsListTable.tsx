@@ -96,9 +96,9 @@ const ProjectsListTable = ({
   }, [data]);  
 
 //------------------------------------------------------------------------------------------------  
-  const intObserver = useRef()  
+const intObserver = useRef<IntersectionObserver | null>(null)  
 //-------------------callback------------------------------------------------------------------------------  
-const lastProjectRef = useCallback((project:Project) => {  
+const lastProjectRef = useCallback((node: HTMLElement | null) => {  
   if (isFetchingNextPage) return  
 
   if (intObserver.current) intObserver.current.disconnect()  
@@ -110,10 +110,10 @@ const lastProjectRef = useCallback((project:Project) => {
     }  
   })  
 
-  if (project) intObserver.current.observe(project)  
-}, [isFetchingNextPage, fetchNextPage, hasNextPage])  
+  if (node) intObserver.current.observe(node)  
+}, [isFetchingNextPage, fetchNextPage, hasNextPage]) 
 //------------------------------------------------------------------------------------------------------------  
-  if (status === 'error') return <p className='center'>خطا: {error.message}</p>  
+  if (status === 'error') return <p className='center'>خطا: {(error as Error).message}</p>
 //-----------------------If we wanna addOne projectEtebar---------------------------------------------------  
 if (!isGroup && etebar && validityMap!==undefined && setValidityMap!==undefined && handleAdd!==undefined)  
   {  

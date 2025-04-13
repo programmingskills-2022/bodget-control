@@ -6,7 +6,7 @@ import { useSettingsStore } from "../store/settingsStore";
 import { handleMessage } from "../general/Functions";
 import Modal from "../components/UI/Modal";
 import { useEtebarCitiesStore } from "../store/etebarCitiesStore";
-import EtebarCityForm from "../components/Definations/EtebarCity/EtebarCityForm";
+//import EtebarCityForm from "../components/Definations/EtebarCity/EtebarCityForm";
 import EtebarCityTable from "../components/Definations/EtebarCity/EtebarCityTable";
 import { useCitiesStore } from "../store/citiesStore";
 import { useResourcesStore } from "../store/resourcesStore";
@@ -134,7 +134,7 @@ const removeEtebarCity= async(etebarCity:ETEBARCITY)=>{
         <Card fontStyles="flex-1 container mx-auto p-4"> 
           {/* <EtebarCityForm clear={clear} etebarCity={etebarCity} setEtebarCity={setEtebarCity} 
           handleClick={handleClick} handleCancelClick={refresh}/> */}
-          <EtebarDefinationForm  definitionType="city" clear={clear} etebarDefinition={etebarCity} setEtebarDefinition={setEtebarCity} 
+          <EtebarDefinationForm  definitionType="city" clear={clear} etebarDefinition={etebarCity} setEtebarDefinition={setEtebarCity as React.Dispatch<React.SetStateAction<ETEBARFASL | ETEBARBARNAMEH | ETEBARCITY | ETEBARORGANOSTAN>>} 
           handleClick={handleClick} handleCancelClick={refresh}/> 
           <EtebarCityTable  setClear={setClear} setEtebarCity={setEtebarCity} removeEtebarCity={removeEtebarCity}/>
         </Card>

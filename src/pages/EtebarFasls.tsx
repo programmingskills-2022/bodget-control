@@ -6,7 +6,7 @@ import { useSettingsStore } from "../store/settingsStore";
 import { handleMessage } from "../general/Functions";
 import Modal from "../components/UI/Modal";
 import { useEtebarFaslsStore } from "../store/etebarFaslsStore";
-import EtebarFaslForm from "../components/Definations/EtebarFasl/EtebarFaslForm";
+//import EtebarFaslForm from "../components/Definations/EtebarFasl/EtebarFaslForm";
 import EtebarFaslTable from "../components/Definations/EtebarFasl/EtebarFaslTable";
 import { useFaslsStore } from "../store/faslsStore";
 import { useResourcesStore } from "../store/resourcesStore";
@@ -138,7 +138,7 @@ const removeEtebarFasl= async(etebarFasl:ETEBARFASL)=>{
         <Card fontStyles="flex-1 container mx-auto p-4"> 
           {/* <EtebarFaslForm clear={clear} etebarFasl={etebarFasl} setEtebarFasl={setEtebarFasl} 
           handleClick={handleClick} handleCancelClick={refresh}/> */}
-          <EtebarDefinationForm  definitionType="fasl" clear={clear} etebarDefinition={etebarFasl} setEtebarDefinition={setEtebarFasl} 
+          <EtebarDefinationForm  definitionType="fasl" clear={clear} etebarDefinition={etebarFasl} setEtebarDefinition={setEtebarFasl as React.Dispatch<React.SetStateAction<ETEBARFASL | ETEBARBARNAMEH | ETEBARCITY | ETEBARORGANOSTAN>>} 
           handleClick={handleClick} handleCancelClick={refresh}/> 
           <EtebarFaslTable  setClear={setClear} setEtebarFasl={setEtebarFasl} removeEtebarFasl={removeEtebarFasl}/>
         </Card>

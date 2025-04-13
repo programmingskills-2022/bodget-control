@@ -100,9 +100,9 @@ useEffect(() => {
 }, [data]); 
 
 //------------------------------------------------------------------------------------------------
-  const intObserver = useRef()
+  const intObserver = useRef<IntersectionObserver | null>(null)
 //-------------------callback------------------------------------------------------------------------------  
-const lastProjectRef = useCallback((project:ProjectWithResource) => {  
+const lastProjectRef = useCallback((node: HTMLElement | null) => {  
   if (isFetchingNextPage) return  
 
   if (intObserver.current) intObserver.current.disconnect()  
@@ -114,10 +114,10 @@ const lastProjectRef = useCallback((project:ProjectWithResource) => {
     }  
   })  
 
-  if (project) intObserver.current.observe(project)  
+  if (node) intObserver.current.observe(node)  
 }, [isFetchingNextPage, fetchNextPage, hasNextPage])  
 //------------------------------------------------------------------------------------------------------------
-  if (status === 'error') return <p className='center'>خطا: {error.message}</p>
+  if (status === 'error') return <p className='center'>خطا: {(error as Error).message}</p>
 
  //-----------------------If we wanna addOne projectTakhsis------------------------------------
 if (!isGroup && !etebar && validityMap!==undefined && setValidityMap!==undefined && handleAdd!==undefined) 
@@ -254,7 +254,8 @@ if (!isGroup && !etebar && validityMap!==undefined && setValidityMap!==undefined
                   page.items.map((project, i:number)  => {
                     let projectContent:JSX.Element  
                     if (page.items.length === i + 1) {
-                      projectContent=  <Project ref={lastProjectRef} key={project.id} 
+                      projectContent=  <Project key={project.id} 
+                        ref={(node) => lastProjectRef(node as HTMLElement)} 
                         columns={columns} 
                         project={project}
                         projectsShowEtebar={projectsShowTakhsis} 

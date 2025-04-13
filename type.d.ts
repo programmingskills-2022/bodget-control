@@ -146,7 +146,18 @@ type AREA={
     part: PART; 
 }
 
-interface AreaWithCity extends AREA {  
+type AreaWithCity=
+//extends AREA 
+{  
+    id: GUID;  
+    code: number | null;  
+    name: string | null;  
+    employeeId: GUID | null;  
+    employee: EMPLOYEE;  
+    cityId: GUID | null;  
+    city: CITY; 
+    partId: GUID | null;  
+    part: PART;     
     cityName:string| null,
     partName:string| null,
     employeeName:string| null
@@ -486,15 +497,6 @@ type ETEBARCITYWithoutId = {
     validity: number
 }
 
-
-// type P = {
-//     userId: number
-//     id: number
-//     title: string
-//     body: string
-//   }
-  
-
   type Column = {  
     header: string;  
     accessor: (project: Project|ProjectWithResource) => JSX.Element | string;  
@@ -525,3 +527,7 @@ type ETEBARCITYWithoutId = {
     };  
 }  
 type DefinationType = 'fasl' | 'barnameh' | 'city' | 'organOstan'; 
+
+interface DataRow {
+    [index: number]: string | undefined;
+  }
